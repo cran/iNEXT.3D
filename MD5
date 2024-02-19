@@ -1,10 +1,10 @@
-1d6f55067483b98c214a2f9a759bf415 *DESCRIPTION
+33f6354c1cd15ab44e13a13172ec2f10 *DESCRIPTION
 47dc77ff603396cab30466c5103a5472 *NAMESPACE
-830f631b158dd36de51154c2b68f29c9 *NEWS
+702d2f6c2026d3d103edcf14ec7b73f8 *NEWS
 e286530f68288a43f34c177d8547757d *R/ChaoUtility_Fun.R
-cbea01c2cbd99338698396bd8aa2fc8a *R/CommonFun.R
+9cad7f1829ae20d09da7b7c487b692ef *R/CommonFun.R
 3971cc8797a59083c900fd165e1d87ed *R/FD_Fun.R
-90f4de402a0d02f9ed6b3796c17fa60c *R/MainFun.r
+31451913b266eb41770d913125b9a6e9 *R/MainFun.r
 ff2eae5313269ed37d50fb76d42d3269 *R/PD_Fun.R
 124cfe233e2c3e064837e741025c47b4 *R/RcppExports.R
 7d580a09ddf0a45c94ce084df8810b39 *R/TD_Fun.R
@@ -17,7 +17,7 @@ b6e9a0e2a399f8fb79d1672df57013e7 *data/Brazil_rainforest_phylo_tree.rda
 0cb492abb143801ca10f1dffeb89ef81 *data/Fish_phylo_tree.rda
 7fc34db3e6645521f37ce923bd2bb295 *inst/CITATION
 faf1ad7628ce17cde21f1d03c04640a3 *inst/doc/Introduction.Rnw
-be24e2e4f934ddb8cd40068ac3654f7e *inst/doc/Introduction.pdf
+b3eddd17f5249a35c4e780b9e17da58f *inst/doc/Introduction.pdf
 161fc135fd199387d112645d72ab73de *man/Brazil_rainforest_abun_data.Rd
 fa8fe56846b38e41248f5c8d1f914def *man/Brazil_rainforest_distance_matrix.Rd
 e3f850145fce9295be536e38ea656c02 *man/Brazil_rainforest_phylo_tree.Rd
@@ -37,6 +37,6 @@ da93d6dc47e8f334db19731f86957e8c *man/ObsAsy3D.Rd
 48a0a63e749315504afbb966527a131f *src/RcppExports.cpp
 e391c6eb8938e7933fc2c3c04eee256b *src/TDRcpp.cpp
 9e2aa915536ce3d619eed51a46c52b8e *tests/testthat.R
-50bad53a3d3b1d0ae27e38d622b670e1 *tests/testthat/test-iNEXT.3D.R
+fef9949855b1a06564eff20fda0e95c7 *tests/testthat/test-iNEXT.3D.R
 faf1ad7628ce17cde21f1d03c04640a3 *vignettes/Introduction.Rnw
 ac05d3afca58a857937cd28b59d3128b *vignettes/mypaper.pdf
