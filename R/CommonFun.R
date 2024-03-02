@@ -210,6 +210,7 @@ check.datatype <- function(data, datatype, nT = nT, to.datalist = FALSE, raw.to.
     if (inherits(data, "list")) {
       data = lapply(data, function(i) data.frame(i))
       data2 = lapply(data, function(i) {
+        if (sum(i) == 0) stop("Data values are all zero in some assemblages. Please remove these assemblages.", call. = FALSE)
         i$species = rownames(i)
         return(i) 
       })
@@ -246,8 +247,16 @@ check.datatype <- function(data, datatype, nT = nT, to.datalist = FALSE, raw.to.
         region_names = if (is.null(names(data))) paste0("Assemblage_", 1:length(data)) else names(data)
         
         data2 = lapply(data, function(x) {
-          if (is.null(names(x)) & datatype == 'abundance') names(x) = paste('Species', 1:length(x), sep = '')
-          if (is.null(names(x)) & datatype == 'incidence_freq') names(x) = c('nT', paste('Species', 1:(length(x)-1), sep = ''))
+          
+          if ( (is.null(names(x)) | sum(names(x) == "") > 0) & datatype == 'abundance') {
+            # warning('The species names are not provided in data.', call. = FALSE)
+            names(x) = paste('Species', 1:length(x), sep = '')
+          }
+          
+          if ( (is.null(names(x)) | sum(names(x) == "") > 0) & datatype == 'incidence_freq') {
+            # warning('The species names are not provided in data.', call. = FALSE)
+            names(x) = c('nT', paste('Species', 1:(length(x)-1), sep = ''))
+          }
           
           x = as.matrix(x)
           x = data.frame('species' = rownames(x), x)
@@ -273,7 +282,10 @@ check.datatype <- function(data, datatype, nT = nT, to.datalist = FALSE, raw.to.
     
     data = as.matrix(data)
     
-    nT = data[1,]
+    if (datatype == "incidence_freq") nT = data[1,]
+    
+    if ( (datatype == "abundance" & sum(colSums(data) == 0) > 0) |
+         (datatype == "incidence_freq" & sum(colSums(data[-1,,drop=FALSE]) == 0) > 0) ) stop("Data values are all zero in some assemblages. Please remove these assemblages.", call. = FALSE)
     
     if (to.datalist == TRUE) {
       datalist <- lapply(1:ncol(data), function(i)  x <- data[,i])
@@ -284,7 +296,7 @@ check.datatype <- function(data, datatype, nT = nT, to.datalist = FALSE, raw.to.
   }
   
   if(inherits(nT, 'data.frame')) nT = unlist(nT)
-  if(datatype != "abundance" & sum(nT < 5) != 0) stop("Number of sampling units of some assemblages is too less. Please add more sampling units data.", call. = FALSE)
+  if(datatype != "abundance" & sum(nT <= 3) != 0) stop("Number of sampling units of some assemblages is too less. Please add more sampling units data.", call. = FALSE)
   
   return(list(datatype, data, nT))
 }
@@ -504,7 +516,7 @@ check.size <- function(data, datatype, size, endpoint, knots) {
         mi <- floor(c(seq(1, ni, length.out = floor(knots[i]/2)), seq(ni+1, endpoint[i], length.out = knots[i]-floor(knots[i]/2))))
       }
       
-      if(sum(mi < 1) > 0) stop("Sample size or number of sampling units should be larger than or equal to one.", call. = FALSE)
+      if(sum(mi < 0) > 0) stop("Sample size (or number of sampling units) cannot be a negative value.", call. = FALSE)
       unique(mi)
     })
     
@@ -527,7 +539,7 @@ check.size <- function(data, datatype, size, endpoint, knots) {
       if ( (sum(size[[i]] == ni) == 0) & (sum(size[[i]] > ni) != 0) & (sum(size[[i]] < ni) != 0) ) 
         mi <- sort(c(ni,size[[i]])) else mi <- sort(size[[i]])
       
-      if(sum(mi < 1) > 0) stop("Sample size or number of sampling units should be larger than or equal to one.", call. = FALSE)
+      if(sum(mi < 0) > 0) stop("Sample size (or number of sampling units) cannot be a negative value.", call. = FALSE)
       unique(mi)
     })
   }
@@ -578,7 +590,7 @@ check.level <- function(data, datatype, base, level) {
     level <- min(level)
   }
   
-  if(base == "size" & sum(level < 1) > 0) stop("Sample size or number of sampling units should be larger than or equal to one.", call. = FALSE)
+  if(base == "size" & sum(level < 0) > 0) stop("Sample size (or number of sampling units) cannot be a negative value.", call. = FALSE)
   if(base == "coverage" & sum(level < 0 | level > 1) > 0) stop("The sample coverage values should be between zero and one.", call. = FALSE)  
   
   return(level)

@@ -44,6 +44,9 @@ PhD.m.est = function(ai,Lis, m, q, nt, reft, cal){
     int.m = sort(unique(c(floor(m[m<nt]), ceiling(m[m<nt]))))
     mRPD = lapply(int.m, function(k) RPD(ai = ai,Lis = Lis,n = nt,m = k,q = q))
     names(mRPD) = int.m
+    
+    if (0 %in% int.m) mRPD[names(mRPD) == 0][[1]] = matrix(0, nrow = nrow(mRPD[names(mRPD) == 0][[1]]),
+                                                           ncol = ncol(mRPD[names(mRPD) == 0][[1]]))
   }
   
   if (cal == 'PD'){
@@ -404,6 +407,7 @@ invChatPD_abu <- function(x,ai,Lis, q, Cs, n, reft, cal){
     if (refC > cvrg) {
       opt <- optimize(f, C = cvrg, lower = 0, upper = n)
       mm <- opt$minimum
+      if (cvrg == 0) mm = 0
     }else if (refC <= cvrg) {
       f1 <- sum(x == 1)
       f2 <- sum(x == 2)
@@ -423,7 +427,7 @@ invChatPD_abu <- function(x,ai,Lis, q, Cs, n, reft, cal){
     }
     mm
   })
-  mm[mm < 1] <- 1
+  # mm[mm < 1] <- 1
   SC <- Cs
   
   out <- as.numeric(PhD.m.est(ai = ai,Lis = Lis,m = mm,q = q,nt = n,reft=reft,cal = cal))
@@ -446,6 +450,7 @@ invChatPD_inc <- function(x,ai,Lis, q, Cs, n, reft, cal){
     if (refC > cvrg) {
       opt <- optimize(f, C = cvrg, lower = 0, upper = n)
       mm <- opt$minimum
+      if (cvrg == 0) mm = 0
     }else if (refC <= cvrg) {
       f1 <- sum(x == 1)
       f2 <- sum(x == 2)
@@ -466,7 +471,7 @@ invChatPD_inc <- function(x,ai,Lis, q, Cs, n, reft, cal){
     }
     mm
   })
-  mm[mm < 1] <- 1
+  # mm[mm < 1] <- 1
   
   SC <- Cs
   out <-  as.numeric(PhD.m.est(ai = ai,Lis = Lis,m = mm,q = q,nt = n,reft = reft,cal = cal))

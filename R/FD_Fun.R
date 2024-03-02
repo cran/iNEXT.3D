@@ -91,6 +91,8 @@ FD.m.est = function(ai_vi, m, q, nT, ai_vi_MLE){
     if (sum(m < nT) != 0) {
       int.m = sort(unique(c(floor(m[m<nT]), ceiling(m[m<nT]))))
       mRFD = rbind(int.m, sapply(int.m, function(k) RFD(av,nT,k,q,V_bar)))
+      
+      if (0 %in% int.m) mRFD[,mRFD[1,] == 0] = 0
     }
     
     sapply(m, function(mm){
@@ -275,6 +277,7 @@ invChatFD_abu <- function(ai_vi, data_, q, Cs, tau, ai_vi_MLE){
     if (refC > cvrg) {
       opt <- optimize(f, cvrg = cvrg, lower = 0, upper = n)
       mm <- opt$minimum
+      if (cvrg == 0) mm = 0
     }else if (refC <= cvrg) {
       f1 <- sum(data_ == 1)
       f2 <- sum(data_ == 2)
@@ -298,7 +301,7 @@ invChatFD_abu <- function(ai_vi, data_, q, Cs, tau, ai_vi_MLE){
     }
     mm
   })
-  mm[mm < 1] <- 1
+  # mm[mm < 1] <- 1
   SC <- Cs
   out <- FD.m.est(ai_vi = ai_vi,m = mm,q = q,nT = n,ai_vi_MLE = ai_vi_MLE)
   out <- as.vector(out)
@@ -322,6 +325,7 @@ invChatFD_inc <- function(ai_vi, data_, q, Cs, tau, ai_vi_MLE){
     if (refC > cvrg) {
       opt <- optimize(f, cvrg = cvrg, lower = 0, upper = n)
       mm <- opt$minimum
+      if (cvrg == 0) mm = 0
     }else if (refC <= cvrg) {
       f1 <- sum(data_ == 1)
       f2 <- sum(data_ == 2)
@@ -346,7 +350,7 @@ invChatFD_inc <- function(ai_vi, data_, q, Cs, tau, ai_vi_MLE){
     }
     mm
   })
-  mm[mm < 1] <- 1
+  # mm[mm < 1] <- 1
   SC <- Cs
   out <- FD.m.est(ai_vi = ai_vi,m = mm,q = q,nT = n,ai_vi_MLE = ai_vi_MLE)
   out <- as.vector(out)
@@ -859,7 +863,7 @@ AUCtable_mle <- function(datalist, dij, q = c(0,1,2), tau=NULL, datatype,
   #   tau <- seq(dmin,dmax,length.out = knots)
   # }
   if(is.null(tau)){
-    tau <- seq(0,1,length.out = FDcut_number)
+    # tau <- seq(0,1,length.out = FDcut_number)
     tau <- seq(1e-8,1,length.out = FDcut_number)
   }
   #q_int <- c(0, 1, 2)
