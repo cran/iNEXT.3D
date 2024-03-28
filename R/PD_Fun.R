@@ -771,7 +771,7 @@ asymPD <- function(datalist, datatype, phylotr, q,reft, cal,nboot, conf){#change
 
 PhD.q.est = function(ai,Lis, q, nt, reft, cal){
   
-  if ( !((sum(ai == 1) == 0) | (sum(ai == 2) == 0 & sum(ai == 1) == 1)) ) {
+  # if ( !((sum(ai == 1) == 0) | (sum(ai == 2) == 0 & sum(ai == 1) == 1)) ) {
     
     t_bars <- as.numeric(t(ai) %*% Lis/nt)
     S <- length(ai)
@@ -838,7 +838,7 @@ PhD.q.est = function(ai,Lis, q, nt, reft, cal){
       }))
     }
     
-  } else est <- PD.Tprofile(ai, Lis, q = q, reft = reft, cal = cal, nt = nt) %>% t %>% c
+  # } else est <- PD.Tprofile(ai, Lis, q = q, reft = reft, cal = cal, nt = nt) %>% t %>% c
   
   return(est)
 }
@@ -856,6 +856,7 @@ Boots.one = function(phylo, aL, datatype, nboot,reft, BLs, splunits = NULL){
     c <- ifelse(f2>0, 1 - (f1/n)*((n-1)*f1/((n-1)*f1+2*f2)),
                 1 - (f1/n)*((n-1)*(f1-1)/((n-1)*(f1-1)+2)))
     lambda <- (1-c) / sum((data/n)*(1- (data/n) )^n)
+    if (lambda == "NaN") lambda = 0
     
     p_hat <- (data/n) * (1-lambda*(1- (data/n) )^n)
     p_hat0 <- rep( (1-c) / f0 , f0 )
@@ -894,6 +895,8 @@ Boots.one = function(phylo, aL, datatype, nboot,reft, BLs, splunits = NULL){
     c <- ifelse(f2>0, 1 - (f1/u)*((n-1)*f1/((n-1)*f1+2*f2)),
                 1 - (f1/u)*((n-1)*(f1-1)/((n-1)*(f1-1)+2)))
     lambda <- u/n*(1-c) / sum((data/n)*(1- (data/n) )^n)
+    if (lambda == "NaN") lambda = 0
+    
     p_hat <- (data/n) * (1-lambda*(1- (data/n) )^n)
     p_hat0 <- rep( (u/n) * (1-c) / f0 , f0 )
     if(length(p_hat0)>0) names(p_hat0) <- paste0("notob",1:length(p_hat0))
