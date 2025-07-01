@@ -801,7 +801,14 @@ PhD.q.est = function(ai,Lis, q, nt, reft, cal){
       if(q==0){
         ans <- PD_obs+PDq0(nt,f1,f2,g1,g2)
       }else if(q==1){
-        h2 <- PDq1_2(nt,g1,A)
+        
+        if(is.infinite((1-A)^(1-nt))){
+          h2 = 0
+        }else{
+          h2 <- PDq1_2(nt,g1,A)
+        }
+        
+        
         h1 <- sum(Li*h1_pt2)
         h <- h1+h2
         ans <- t_bar*exp(h/t_bar)
@@ -813,7 +820,14 @@ PhD.q.est = function(ai,Lis, q, nt, reft, cal){
         k <- 0:(nt-1)
         deltas <- as.numeric(deltas_pt2 %*% Li)
         a <- (choose(q-1,k)*(-1)^k*deltas) %>% sum
-        b <- ifelse(g1==0|A==1,0,(g1*((1-A)^(1-nt))/nt)*(A^(q-1)-round(sum(choose(q-1,k)*(A-1)^k), 12)))
+        
+        if(is.infinite((1-A)^(1-nt))){
+          b = 0
+        }else{
+          b <- ifelse(g1==0|A==1,0,(g1*((1-A)^(1-nt))/nt)*(A^(q-1)-round(sum(choose(q-1,k)*(A-1)^k), 12)))
+        }
+        
+        #b <- ifelse(g1==0|A==1,0,(g1*((1-A)^(1-nt))/nt)*(A^(q-1)-round(sum(choose(q-1,k)*(A-1)^k), 12)))
         ans <- ((a+b)/(t_bar^q))^(1/(1-q))
         # timeb <- Sys.time()
         # print(timeb-timea)

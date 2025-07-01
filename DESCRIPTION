@@ -2,9 +2,10 @@ Package: iNEXT.3D
 Type: Package
 Title: Interpolation and Extrapolation for Three Dimensions of
         Biodiversity
-Version: 1.0.8
+Version: 1.0.9
 Author: Anne Chao [aut, cre],
-  KaiHsiang Hu [ctb]
+  KaiHsiang Hu [ctb],
+  PoYen Chuang [ctb]
 Maintainer: Anne Chao <chao@stat.nthu.edu.tw>
 Authors@R: 
   c(person("Anne", 
@@ -14,7 +15,11 @@ Authors@R:
     person("KaiHsiang", 
            "Hu", 
            role = "ctb",
-           email = "river19951224@gmail.com"))
+           email = "river19951224@gmail.com"),
+    person("PoYen", 
+           "Chuang", 
+           role = "ctb",
+           email = "zerind0970983096@gmail.com"))
 URL: https://sites.google.com/view/chao-lab-website/software/inext-3d
 Description: Biodiversity is a multifaceted concept covering different levels of organization from
             genes to ecosystems. 'iNEXT.3D' extends 'iNEXT' to include three dimensions (3D) 
@@ -34,11 +39,11 @@ Imports: stats, tibble, ggplot2, reshape2, tidytree, phyclust, dplyr,
 Suggests: testthat, knitr, rmarkdown, gridExtra, ggthemes
 BugReports: https://github.com/AnneChao/iNEXT.3D/issues
 LazyLoad: yes
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 VignetteBuilder: knitr
 ByteCompile: true
 LinkingTo: Rcpp
-Packaged: 2025-02-18 05:07:27 UTC; stat-pc
+Packaged: 2025-07-01 09:13:45 UTC; nthu
 Repository: CRAN
 NeedsCompilation: yes
-Date/Publication: 2025-02-18 06:10:02 UTC
+Date/Publication: 2025-07-01 10:00:02 UTC
